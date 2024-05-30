@@ -1,0 +1,20 @@
+.navbar{
+    background-color:#da1ca1;
+    color: white;
+    display: flex;
+}
+.navbar-brand{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    img{
+        width: 100px;
+     }
+    p{
+        color: white;
+        font-size: xx-large;
+        font-family:cursive ;
+       
+    }
+    
+}
