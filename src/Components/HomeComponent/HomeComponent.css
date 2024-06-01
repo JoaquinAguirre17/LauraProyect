@@ -2,4 +2,15 @@
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
+    justify-content: center;
+}
+.carousel{
+    
+   
+    
+    img{
+    height: 600px;
+    border-radius: 30px;
+
+    }
 }

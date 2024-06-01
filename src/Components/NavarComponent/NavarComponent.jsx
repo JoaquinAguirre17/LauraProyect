@@ -1,3 +1,4 @@
+import BotonComponent from '../BotonComponent/BontonComponent'
 import './NavarComponent.css'
 
 function Navar() {
@@ -6,7 +7,7 @@ function Navar() {
             <nav className="navbar navbar-expand-lg ">
                 <div className="container-fluid ">
                     <a className="navbar-brand  " href="#">
-                    <img src="../../../public/img/Logo.png" alt="Logo" />
+                        <img src="../../../public/img/Logo.png" alt="Logo" />
                         <p>Lia Manicure</p>
                     </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,20 +17,15 @@ function Navar() {
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul className="navbar-nav ">
                             <li>
-                                <button>Hola</button>
+                                <BotonComponent ruta={'/'} nombre={'Home'} />
                             </li>
 
                             <li className="nav-item">
-                                <button>Hola</button>
+                                <BotonComponent ruta={'/Contacto'} nombre={'Contacto'} />
                             </li>
                             <li className="nav-item">
-                                <button>Hola</button>
+                                <BotonComponent ruta={'/Turnos'} nombre={'Turnos'} />
                             </li>
-                            <li className="nav-item">
-                                <button>Hola</button>
-                            </li>
-
-
                         </ul>
                     </div>
 
