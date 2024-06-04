@@ -5,7 +5,7 @@ function Navar() {
         <>
             <nav className="navbar navbar-expand-lg ">
                 <div className="container-fluid ">
-                    <a className="navbar-brand  " href="#">
+                    <a className="navbar-brand  " href="../../App.jsx">
                     <img src="../../../public/img/Logo.png" alt="Logo" />
                         <p>Lia Manicure</p>
                     </a>
