@@ -1,5 +1,5 @@
 
-button {
+.btn {
     background-color: #66074a; /* Color del botón */
     border: none;
     color: white;
@@ -14,12 +14,12 @@ button {
     transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
 }
 
-button:hover {
+.btn:hover {
     background-color: #c21893; /* Color cuando el botón está en hover */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra al hacer hover */
 }
 
-.button:active {
+.btn:active {
     background-color: #a61775; /* Color cuando el botón está activo */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra al hacer clic */
     transform: translateY(2px); /* Efecto de "presionar" el botón */
