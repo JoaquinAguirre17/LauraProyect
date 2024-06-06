@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 30px;
 }
 .carousel-inner {
     max-width: 40%; /* Ajusta este valor según necesites */
@@ -9,5 +10,6 @@
 }
 .carousel-item img {
     width: 100%; /* O el tamaño que prefieras */
-    height: 500px; /* Mantener la relación de aspecto */
+    height: 600px; /* Mantener la relación de aspecto */
+    margin-bottom: 20px;
 }
