@@ -6,13 +6,10 @@ function Navar() {
         <>
             <nav className="navbar navbar-expand-lg ">
                 <div className="container-fluid ">
-<<<<<<< HEAD:src/Components/NavarComponent/NavarComponent.jsx
-                    <a className="navbar-brand  " href="#">
-                        <img src="../../../public/img/Logo.png" alt="Logo" />
-=======
+
+                  
                     <a className="navbar-brand  " href="../../App.jsx">
-                    <img src="../../../public/img/Logo.png" alt="Logo" />
->>>>>>> dbf03c0a0b612d4e60087011091af5620d641ca2:Cliente/src/Components/NavarComponent/NavarComponent.jsx
+                        <img src="../../../public/img/Logo.png" alt="Logo" />
                         <p>Lia Manicure</p>
                     </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

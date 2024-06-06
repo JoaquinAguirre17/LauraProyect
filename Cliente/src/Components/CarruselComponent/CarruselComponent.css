@@ -1,0 +1,13 @@
+.carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.carousel-inner {
+    max-width: 40%; /* Ajusta este valor según necesites */
+    margin: 0 auto;
+}
+.carousel-item img {
+    width: 100%; /* O el tamaño que prefieras */
+    height: 500px; /* Mantener la relación de aspecto */
+}
