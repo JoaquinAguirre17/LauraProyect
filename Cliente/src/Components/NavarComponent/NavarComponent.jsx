@@ -1,12 +1,13 @@
-import './NavarComponent.css'
+import { Link } from 'react-router-dom';
+import './NavarComponent.css';
 
-function Navar() {
+function NavarComponent() {
     return (
         <>
             <nav className="navbar navbar-expand-lg ">
-                <div className="container-fluid ">
-                    <a className="navbar-brand  " href="../../App.jsx">
-                    <img src="../../../public/img/Logo.png" alt="Logo" />
+                <div className="container-fluid">
+                    <a className="navbar-brand" href="/">
+                        <img src="../../../public/img/Logo.png" alt="Logo" />
                         <p>Lia Manicure</p>
                     </a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,11 +15,7 @@ function Navar() {
                     </button>
 
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                        <ul className="navbar-nav ">
-                            <li>
-                                <button>Hola</button>
-                            </li>
-
+                        <ul className="navbar-nav">
                             <li className="nav-item">
                                 <button>Hola</button>
                             </li>
@@ -26,16 +23,19 @@ function Navar() {
                                 <button>Hola</button>
                             </li>
                             <li className="nav-item">
+                                <Link to="/form">
+                                    <button>Turnos</button>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <button>Hola</button>
                             </li>
-
-
                         </ul>
                     </div>
-
                 </div>
             </nav>
         </>
-    )
+    );
 }
-export default Navar
+
+export default NavarComponent;
