@@ -2,4 +2,76 @@
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
+    justify-content: center;
+}
+
+   
+    
+    .carousel-item{
+       
+      
+        
+        img{
+        border-radius: 30px;  
+        height: 400px;
+
+       
+        }
+    }
+   
+
+.presentacion{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-radius: 30px;
+    
+    h2{
+       padding-top:10px;
+       text-align: center;
+       text-decoration: underline;
+       font-size: xx-large;
+    }
+    p{
+        padding: 10px; 
+        font-size: larger;
+        text-align: center;
+        justify-content: center;
+    }
+    img{
+        
+        height: 400px;
+        width: 400px;
+    }
+}
+h3 {
+    font-size: 3rem;
+    text-decoration: underline;
+    color: white;
+    text-align: center;
+    margin-top: 50px;
+    transition: transform 0.3s ease, color 0.3s ease; /* Transiciones para transformaciones y color */
+}
+
+/* Animación inicial */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Aplicar la animación al cargar la página */
+h3{
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Efecto hover */
+h3:hover {
+    transform: scale(1.1); /* Aumentar tamaño al pasar el mouse */
+    color: #cc00ff; /* Cambiar color al pasar el mouse */
 }

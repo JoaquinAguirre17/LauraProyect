@@ -1,6 +1,23 @@
 body {
-    background-image: url('../public/img/Fondo.jpg');
+    margin: 0;
+    padding: 0;
+    background-image: url('../public/img/fondo4.jpg');
     background-attachment: fixed;
     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     color: white;
+    position: relative;
+    z-index: 0;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad aquí */
+    z-index: -1;
 }

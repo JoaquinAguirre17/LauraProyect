@@ -1,0 +1,114 @@
+h1 {
+  font-size: 3rem;
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 30px;
+  transition: transform 0.3s ease, color 0.3s ease;
+ text-decoration:underline;/* Transiciones para transformaciones y color */
+}
+
+/* Animación inicial */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicar la animación al cargar la página */
+h1 {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Efecto hover */
+h1:hover {
+  transform: scale(1.1); /* Aumentar tamaño al pasar el mouse */
+  color: #ff00f2; /* Cambiar color al pasar el mouse */
+}
+
+.contacto {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  .maps {
+    background-color: rgba(0, 0, 0, 0.685);
+    border-radius: 30px;
+    margin: 10px;
+
+    justify-content: center;
+    .local {
+      padding: 30px;
+      text-align: center;
+    }
+    iframe {
+      width: 400px;
+      height: 450px;
+      border-radius: 20px;
+      margin: 10px;
+    }
+  }
+  .contact {
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.685);
+    margin: 10px;
+    border-radius: 30px;
+    height: min-content;
+    
+    .redes {
+      text-align: center;
+      padding: 30px;
+      
+    }
+   .horario-list{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 20px;
+   }
+
+    .social-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 20px;
+      justify-content: center; /* Centra la lista horizontalmente */
+     
+    }
+    .social-list li {
+      display: inline-block;
+      
+    }
+    .social-list a {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .social-list i {
+      font-size: 60px; /* Puedes ajustar el tamaño según tus necesidades */
+      transition: transform 0.3s, color 0.3s; /* Añade transición para el efecto hover */
+    }
+    .social-list li:hover i {
+        transform: scale(1.2) ; /* Aumenta el tamaño del icono y lo rota */
+        color: #ff47ff; /* Cambia el color del icono */
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+}
