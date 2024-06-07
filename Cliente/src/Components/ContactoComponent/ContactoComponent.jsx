@@ -1,4 +1,4 @@
-import MapComponent from '../MapComponent/MapComponent'
+
 import './ContactoComponent.css'
 function ContactoComponent() {
     return (
@@ -29,7 +29,7 @@ function ContactoComponent() {
                             <li>
                                 <div className="dropdown">
                                     <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                       Lunes
+                                        Lunes
                                     </button>
                                     <ul className="dropdown-menu">
                                         <li><a className="dropdown-item" >Action</a></li>
@@ -63,7 +63,7 @@ function ContactoComponent() {
                                 </div>
                             </li>
                             <li>
-                               <div className="dropdown">
+                                <div className="dropdown">
                                     <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Jueves
                                     </button>
@@ -77,7 +77,7 @@ function ContactoComponent() {
                             <li>
                                 <div className="dropdown">
                                     <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                       Viernes
+                                        Viernes
                                     </button>
                                     <ul className="dropdown-menu">
                                         <li><a className="dropdown-item" >Action</a></li>

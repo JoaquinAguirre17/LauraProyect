@@ -10,16 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@mercadopago/sdk-react": "^0.0.3",
     "axios": "^1.7.2",
     "react": "^18.2.0",
-=======
-    "@react-google-maps/api": "^2.19.3",
-    "bootstrap": "^5.3.3",
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.10.2",
->>>>>>> 6c34bba31357fcb86a03bd9d80a78b9cb0d66ee3
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1"
   },

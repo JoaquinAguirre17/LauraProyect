@@ -30,19 +30,13 @@ function HomeComponent() {
                 <CardsComponent titulo={'Softgel'} img={'../../../../public/img/SoftGel.jpg'}
                     descrip={'  Nueva técnica que consiste en un método de extensión de uñas mediante tips que se adhieren directamente a la superficie de la uña natural. Los tips están hechos de plástico flexible y se han ganado su popularidad por tratarse de una técnica rápida, cómoda y efectiva.'} />
 
-                <CardsComponent titulo={'Francesitas'} img={'../../../../public/img/img.jpg'}
-                    descrip={'dhksjahdkjashdkjsahkdjhaskjhdfkjashfjkshafkjhkjfhjkHFKJHDKJHAFGKJDHGKJHADKJGHDJKSGHJKADSGHKJADSHGJKASDHGKJAHSDGKJHASDJK'} />
-
-                <CardsComponent titulo={'Nail Art'} img={'../../../../public/img/img.jpg'}
-                    descrip={'dhksjahdkjashdkjsahkdjhaskjhdfkjashfjkshafkjhkjfhjkHFKJHDKJHAFGKJDHGKJHADKJGHDJKSGHJKADSGHKJADSHGJKASDHGKJAHSDGKJHASDJK'} />
-
-                <CardsComponent titulo={'Brillos y polvos'} img={'../../../../public/img/img.jpg'}
-                    descrip={'dhksjahdkjashdkjsahkdjhaskjhdfkjashfjkshafkjhkjfhjkHFKJHDKJHAFGKJDHGKJHADKJGHDJKSGHJKADSGHKJADSHGJKASDHGKJAHSDGKJHASDJK'} />
+                <CardsComponent titulo={'Diseños Extras'} img={'../../../../public/img/SoftGel.jpg'}
+                    descrip={'Te ofrezco diseños extras como Francesitas, Polvos/Brillos y Nails Art etc '} />
             </div>
 
             <h3>Mis trabajos</h3>
 
-            <CarruselComponent/>
+            <CarruselComponent />
 
         </>
     )

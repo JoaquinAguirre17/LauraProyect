@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import './From.css'
 
 function Form() {
     const [formData, setFormData] = useState({
@@ -31,28 +32,42 @@ function Form() {
     };
 
     return (
-        <div className="form-container">
-            <h2>Reservar Turno</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="fechaHora">Fecha y Hora:</label>
-                    <input type="datetime-local" id="fechaHora" name="fechaHora" value={formData.fechaHora} onChange={handleChange} required />
+        <>
+            <div className='formulario'>
+                <div className="form-container">
+                    <h2>Reservar Turno</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="fechaHora">Fecha y Hora:</label>
+                            <input type="datetime-local" id="fechaHora" name="fechaHora" value={formData.fechaHora} onChange={handleChange} required />
+                        </div>
+                        <div>
+                            <label htmlFor="nombreCliente">Nombre:</label>
+                            <input type="text" id="nombreCliente" name="nombreCliente" value={formData.nombreCliente} onChange={handleChange} required />
+                        </div>
+                        <div>
+                           
+                            
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="tipoServicio" name="tipoServicio" value={formData.tipoServicio} onChange={handleChange} required>
+                                    Tipo de servicio
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Capping</a></li>
+                                    <li><a class="dropdown-item" href="#">Esmaltado Semipermanente</a></li>
+                                    <li><a class="dropdown-item" href="#">Soft Gel</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="montoSeña">Monto de la Seña:</label>
+                            <input type="number" id="montoSeña" name="montoSeña" value={formData.montoSeña} onChange={handleChange} required />
+                        </div>
+                        <button type="submit">Reservar</button>
+                    </form>
                 </div>
-                <div>
-                    <label htmlFor="nombreCliente">Nombre:</label>
-                    <input type="text" id="nombreCliente" name="nombreCliente" value={formData.nombreCliente} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label htmlFor="tipoServicio">Tipo de Servicio:</label>
-                    <input type="text" id="tipoServicio" name="tipoServicio" value={formData.tipoServicio} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label htmlFor="montoSeña">Monto de la Seña:</label>
-                    <input type="number" id="montoSeña" name="montoSeña" value={formData.montoSeña} onChange={handleChange} required />
-                </div>
-                <button type="submit">Reservar</button>
-            </form>
-        </div>
+            </div>
+        </>
     );
 }
 

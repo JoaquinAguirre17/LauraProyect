@@ -14,12 +14,17 @@
 .hover-card:hover {
   transform: translateY(-10px); /* Eleva la tarjeta */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade sombra */
+  border-style: solid;
+  border-color: rgb(226, 43, 217);
 }
 
 .hover-card img {
   transition: transform 0.3s; /* Añade transición a la imagen */
+  
 }
 
 .hover-card:hover img {
   transform: scale(1.05); /* Agranda la imagen ligeramente */
+  border-color: rgb(226, 43, 217);
+  border-style: solid;
 }
