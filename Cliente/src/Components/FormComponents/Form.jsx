@@ -4,16 +4,27 @@ import './From.css'
 
 function Form() {
     const [formData, setFormData] = useState({
-        fechaHora: '',
+        fecha: '',
+        hora: '',
         nombreCliente: '',
         tipoServicio: '',
-        montoSeña: '2000',
+        montoSeña: '',
     });
 
     const servicios = {
-        "Capping": 2000,
-        "Esmaltado Semipermanente": 1500,
-        "Soft Gel": 2500,
+        "Capping": 3750,
+        "Esmaltado Semipermanente": 3000,
+        "Soft Gel": 4400,
+    };
+
+    const horariosDisponibles = {
+        "Lunes": ["09:00", "11:30", "13:30", "17:30"],
+        "Martes": ["09:00", "11:30", "15:00", "18:00"],
+        "Miércoles": ["09:00", "11:03", "13:30", "17:30"],
+        "Jueves": ["09:00", "11:30", "15:00", "18:00"],
+        "Viernes": ["09:00", "11:30", "13:00", "15:00", "18:00"],
+        "Sabado": ["10:00", "12:30", "15:00"]
+        // Otros días y horarios según tu disponibilidad
     };
 
     const handleChange = (e) => {
@@ -51,10 +62,26 @@ function Form() {
                 <div className="form-container">
                     <h2>Reservar Turno</h2>
                     <form onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="fechaHora">Fecha y Hora:</label>
-                            <input type="datetime-local" id="fechaHora" name="fechaHora" value={formData.fechaHora} onChange={handleChange} required />
+                        <div class="form-group">
+                            <label for="fecha">Fecha:</label>
+                            <select id="fecha" name="fecha" value={formData.fecha} onChange={handleChange} required>
+                                <option value="">Selecciona un día</option>
+                                {Object.keys(horariosDisponibles).map((dia) => (
+                                    <option key={dia} value={dia}>{dia}</option>
+                                ))}
+                            </select>
                         </div>
+                        {formData.fecha && (
+                            <div class="form-group">
+                                <label for="hora">Hora:</label>
+                                <select id="hora" name="hora" value={formData.hora} onChange={handleChange} required>
+                                    <option value="">Selecciona una hora</option>
+                                    {horariosDisponibles[formData.fecha].map((hora) => (
+                                        <option key={hora} value={hora}>{hora}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
                         <div>
                             <label htmlFor="nombreCliente">Nombre:</label>
                             <input type="text" id="nombreCliente" name="nombreCliente" value={formData.nombreCliente} onChange={handleChange} required />
