@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import './From.css'
+import './Form.css';
 
 function Form() {
     const [formData, setFormData] = useState({
@@ -10,11 +10,25 @@ function Form() {
         montoSeña: '2000',
     });
 
+    const servicios = {
+        "Capping": 2000,
+        "Esmaltado Semipermanente": 1500,
+        "Soft Gel": 2500,
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value,
+        });
+    };
+
+    const handleServicioChange = (servicio) => {
+        setFormData({
+            ...formData,
+            tipoServicio: servicio,
+            montoSeña: servicios[servicio]
         });
     };
 
@@ -46,22 +60,23 @@ function Form() {
                             <input type="text" id="nombreCliente" name="nombreCliente" value={formData.nombreCliente} onChange={handleChange} required />
                         </div>
                         <div>
-                           
-                            
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="tipoServicio" name="tipoServicio" value={formData.tipoServicio} onChange={handleChange} required>
-                                    Tipo de servicio
+                            <label>Tipo de Servicio:</label>
+                            <div className="dropdown">
+                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {formData.tipoServicio || "Selecciona un servicio"}
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Capping</a></li>
-                                    <li><a class="dropdown-item" href="#">Esmaltado Semipermanente</a></li>
-                                    <li><a class="dropdown-item" href="#">Soft Gel</a></li>
+                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    {Object.keys(servicios).map((servicio) => (
+                                        <li key={servicio} onClick={() => handleServicioChange(servicio)} className="dropdown-item">
+                                            {servicio}
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>
                         <div>
                             <label htmlFor="montoSeña">Monto de la Seña:</label>
-                            <input type="number" id="montoSeña" name="montoSeña" value={formData.montoSeña} onChange={handleChange} required />
+                            <input type="number" id="montoSeña" name="montoSeña" value={formData.montoSeña} readOnly />
                         </div>
                         <button type="submit">Reservar</button>
                     </form>
