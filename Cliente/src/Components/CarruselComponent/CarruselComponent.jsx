@@ -9,6 +9,16 @@ function CarruselComponent() {
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="6" aria-label="Slide 7"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="7" aria-label="Slide 8"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="8" aria-label="Slide 9"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="9" aria-label="Slide 10"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="10" aria-label="Slide 11"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="11" aria-label="Slide 12"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="12" aria-label="Slide 13"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="13" aria-label="Slide 14"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="14" aria-label="Slide 15"></button>
                 </div>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
@@ -25,6 +35,36 @@ function CarruselComponent() {
                     </div>
                     <div class="carousel-item">
                         <img src="../../../../public/img/carrusel5.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel6.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel7.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel8.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel9.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel10.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel11.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel12.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel13.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel14.jpg" class="d-block " alt="..."></img>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="../../../../public/img/carrusel15.jpg" class="d-block " alt="..."></img>
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

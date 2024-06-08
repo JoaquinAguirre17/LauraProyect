@@ -32,9 +32,10 @@ function ContactoComponent() {
                                         Lunes
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" >Action</a></li>
-                                        <li><a className="dropdown-item" >Another action</a></li>
-                                        <li><a className="dropdown-item" >Something else here</a></li>
+                                        <li><a className="dropdown-item" >9:00hs</a></li>
+                                        <li><a className="dropdown-item" >11:30hs</a></li>
+                                        <li><a className="dropdown-item" >13:30hs</a></li>
+                                        <li><a className="dropdown-item" >17:30hs</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -44,9 +45,10 @@ function ContactoComponent() {
                                         Martes
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" >Action</a></li>
-                                        <li><a className="dropdown-item" >Another action</a></li>
-                                        <li><a className="dropdown-item" >Something else here</a></li>
+                                        <li><a className="dropdown-item" >9:00hs</a></li>
+                                        <li><a className="dropdown-item" >11:30hs</a></li>
+                                        <li><a className="dropdown-item" >15:00hs</a></li>
+                                        <li><a className="dropdown-item" >18:00hs</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -56,9 +58,10 @@ function ContactoComponent() {
                                         Miercoles
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" >Action</a></li>
-                                        <li><a className="dropdown-item" >Another action</a></li>
-                                        <li><a className="dropdown-item" >Something else here</a></li>
+                                        <li><a className="dropdown-item" >9hs</a></li>
+                                        <li><a className="dropdown-item" >11:30hs</a></li>
+                                        <li><a className="dropdown-item" >13:30hs</a></li>
+                                        <li><a className="dropdown-item" >17:30hs</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -68,9 +71,10 @@ function ContactoComponent() {
                                         Jueves
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" >Action</a></li>
-                                        <li><a className="dropdown-item" >Another action</a></li>
-                                        <li><a className="dropdown-item" >Something else here</a></li>
+                                        <li><a className="dropdown-item" >9:00hs</a></li>
+                                        <li><a className="dropdown-item" >11:30hs</a></li>
+                                        <li><a className="dropdown-item" >15:00hs</a></li>
+                                        <li><a className="dropdown-item" >18:00hs</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -80,9 +84,10 @@ function ContactoComponent() {
                                         Viernes
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" >Action</a></li>
-                                        <li><a className="dropdown-item" >Another action</a></li>
-                                        <li><a className="dropdown-item" >Something else here</a></li>
+                                        <li><a className="dropdown-item" >9:00hs</a></li>
+                                        <li><a className="dropdown-item" >11:30hs</a></li>
+                                        <li><a className="dropdown-item" >15:00hs</a></li>
+                                        <li><a className="dropdown-item" >18:00hs</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -92,9 +97,9 @@ function ContactoComponent() {
                                         Sabado
                                     </button>
                                     <ul className="dropdown-menu">
-                                        <li><a className="dropdown-item" >Action</a></li>
-                                        <li><a className="dropdown-item" >Another action</a></li>
-                                        <li><a className="dropdown-item" >Something else here</a></li>
+                                        <li><a className="dropdown-item" >10:00hs</a></li>
+                                        <li><a className="dropdown-item" >12:30hs</a></li>
+                                        <li><a className="dropdown-item" >15:00hs</a></li>
                                     </ul>
                                 </div>
                             </li>

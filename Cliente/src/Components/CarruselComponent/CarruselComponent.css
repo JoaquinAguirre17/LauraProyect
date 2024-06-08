@@ -13,3 +13,17 @@
     height: 600px; /* Mantener la relación de aspecto */
     margin-bottom: 20px;
 }
+@media (max-width: 768px) {
+    .carousel {
+        margin: 10px;
+    }
+
+    .carousel-inner {
+        max-width: 90%; /* Ajustar a un tamaño más pequeño para móviles */
+    }
+
+    .carousel-item img {
+        height: auto; /* Permitir que la altura se ajuste automáticamente */
+        margin-bottom: 10px;
+    }
+}
