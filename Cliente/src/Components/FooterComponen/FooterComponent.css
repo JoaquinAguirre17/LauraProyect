@@ -4,40 +4,37 @@ footer {
   text-align: center;
 }
 .social-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-    justify-content: center; /* Centra la lista horizontalmente */
-   
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  justify-content: center; /* Centra la lista horizontalmente */
+}
+.social-list li {
+  display: inline-block;
+}
+.social-list a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.social-list i {
+  font-size: 30px; /* Puedes ajustar el tamaño según tus necesidades */
+  transition: transform 0.3s, color 0.3s; /* Añade transición para el efecto hover */
+}
+.social-list li:hover i {
+  transform: scale(1.2); /* Aumenta el tamaño del icono y lo rota */
+  color: #e539fc; /* Cambia el color del icono */
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  .social-list li {
-    display: inline-block;
-    
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  .social-list a {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .social-list i {
-    font-size: 30px; /* Puedes ajustar el tamaño según tus necesidades */
-    transition: transform 0.3s, color 0.3s; /* Añade transición para el efecto hover */
-  }
-  .social-list li:hover i {
-      transform: scale(1.2) ; /* Aumenta el tamaño del icono y lo rota */
-      color: #e539fc; /* Cambia el color del icono */
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
+}
