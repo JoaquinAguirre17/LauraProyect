@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import './Form.css';
+import './From.css';
 
 function Form() {
     const [formData, setFormData] = useState({
@@ -8,7 +8,7 @@ function Form() {
         hora: '',
         nombreCliente: '',
         tipoServicio: '',
-        montoSeña: '2000',
+        montoSeña: '',
     });
 
     const servicios = {
