@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+
 import './NavarComponent.css';
 import BotonComponent from '../BotonComponent/BontonComponent';
 
@@ -17,7 +17,7 @@ function NavarComponent() {
 
                     <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                         <ul className="navbar-nav">
-                        <li className="nav-item">
+                            <li className="nav-item">
                                 <BotonComponent ruta={'/'} nombre={'Home'} />
                             </li>
                             <li className="nav-item">
@@ -26,8 +26,8 @@ function NavarComponent() {
                             <li className="nav-item">
                                 <BotonComponent ruta={'/Turnos'} nombre={'Turnos'} />
                             </li>
-                           
-                           
+
+
                         </ul>
                     </div>
                 </div>
