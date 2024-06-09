@@ -76,7 +76,7 @@ app.post('/turnos/reservar', async (req, res) => {
                     pending: `${process.env.BACKEND_URL}/turnos/pendiente`
                 },
                 auto_return: 'approved',
-                external_reference: fechaHora, // Usamos fechaHora como referencia externa
+                external_reference: fechaHora, tipoServicio, // Usamos fechaHora como referencia externa
             };
 
             console.log('Preferencia creada:', preference);
@@ -153,22 +153,14 @@ app.get('/turnos/horarios-disponibles', async (req, res) => {
             );
             const horasReservadas = rows.map(row => row.hora);
 
-            // Definir horarios disponibles según tu lógica
-            const horariosDisponibles = {
-                "Lunes": ["09:00", "11:30", "13:30", "17:30"],
-                "Martes": ["09:00", "11:30", "15:00", "18:00"],
-                "Miércoles": ["09:00", "11:30", "13:30", "17:30"],
-                "Jueves": ["09:00", "11:30", "15:00", "18:00"],
-                "Viernes": ["09:00", "11:30", "13:00", "15:00", "18:00"],
-                "Sábado": ["10:00", "12:30", "15:00"],
-                // Otros días y horarios según tu disponibilidad
-            };
-
+            // Obtener día de la semana y horarios disponibles
             const diaSemana = moment(fecha).format('dddd');
-            const horariosDia = horariosDisponibles[diaSemana] || [];
-            const horariosDisponiblesFiltrados = horariosDia.filter(hora => {
-                const [hours, minutes] = hora.split(':');
-                return !horasReservadas.includes(Number(hours));
+            const horariosDisponibles = obtenerHorariosDisponibles(diaSemana);
+
+            // Filtrar horarios disponibles según los ya reservados
+            const horariosDisponiblesFiltrados = horariosDisponibles.filter(hora => {
+                const hour = Number(hora.split(':')[0]);
+                return !horasReservadas.includes(hour);
             });
 
             res.status(200).json(horariosDisponiblesFiltrados);
@@ -180,6 +172,33 @@ app.get('/turnos/horarios-disponibles', async (req, res) => {
         res.status(500).json({ message: 'Error interno al procesar la solicitud' });
     }
 });
+
+// Función para obtener los horarios disponibles para un día de la semana
+const obtenerHorariosDisponibles = (diaSemana) => {
+    const horariosDisponibles = {
+        "Lunes": ["09:00", "11:30", "13:30", "17:30"],
+        "Martes": ["09:00", "11:30", "15:00", "18:00"],
+        "Miércoles": ["09:00", "11:30", "13:30", "17:30"],
+        "Jueves": ["09:00", "11:30", "15:00", "18:00"],
+        "Viernes": ["09:00", "11:30", "13:00", "15:00", "18:00"],
+        "Sábado": ["10:00", "12:30", "15:00"],
+        // Agrega más días y horarios según tu disponibilidad
+    };
+
+    // Obtener horarios para el día de la semana dado
+    const horariosDia = horariosDisponibles[diaSemana] || [];
+
+    // Si es pasado medianoche, devolver horarios disponibles para el próximo día
+    const ahora = moment();
+    const esPasadoMedianoche = ahora.isAfter(moment(fecha).startOf('day'));
+    if (esPasadoMedianoche) {
+        const siguienteDia = ahora.add(1, 'days').format('dddd');
+        return horariosDisponibles[siguienteDia] || [];
+    }
+
+    return horariosDia;
+};
+
 
 
 // Función para borrar turnos antiguos
