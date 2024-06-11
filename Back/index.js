@@ -76,7 +76,7 @@ app.post('/turnos/reservar', async (req, res) => {
                     pending: `${process.env.BACKEND_URL}/turnos/pendiente`
                 },
                 auto_return: 'approved',
-                external_reference: fechaHora, // Usamos fechaHora como referencia externa
+                external_reference: fechaHora, tipoServicio, // Usamos fechaHora como referencia externa
             };
 
             console.log('Preferencia creada:', preference);
@@ -98,10 +98,21 @@ app.post('/turnos/reservar', async (req, res) => {
 
 // Endpoint para confirmar el turno después del pago
 app.get('/turnos/confirmar', async (req, res) => {
-    const { payment_id, status, external_reference } = req.query;
+    const { payment_id, status, external_reference, nombreCliente, tipoServicio } = req.query;
+
+    console.log('Received parameters:', { payment_id, status, external_reference, nombreCliente, tipoServicio });
 
     if (status !== 'approved') {
         return res.status(400).json({ message: 'El pago no fue aprobado' });
+    }
+
+    // Verificar y convertir los parámetros
+    const safeExternalReference = external_reference || null;
+    const safeNombreCliente = nombreCliente || null;
+    const safeTipoServicio = tipoServicio || null;
+
+    if (!safeExternalReference || !safeNombreCliente || !safeTipoServicio) {
+        return res.status(400).json({ message: 'Faltan datos requeridos para confirmar el turno' });
     }
 
     try {
@@ -110,11 +121,11 @@ app.get('/turnos/confirmar', async (req, res) => {
             // Insertar nuevo turno
             const [result] = await connection.execute(
                 'INSERT INTO turnos (fechaHora, nombreCliente, tipoServicio) VALUES (?, ?, ?)',
-                [external_reference, req.query.nombreCliente, req.query.tipoServicio]
+                [safeExternalReference, safeNombreCliente, safeTipoServicio]
             );
 
-            const fechaFormateada = moment(external_reference).format('DD-MM-YYYY HH:mm');
-            await enviarCorreoElectronico(req.query.nombreCliente, fechaFormateada, req.query.tipoServicio);
+            const fechaFormateada = moment(safeExternalReference).format('DD-MM-YYYY HH:mm');
+            await enviarCorreoElectronico(safeNombreCliente, fechaFormateada, safeTipoServicio);
 
             res.status(201).json({ message: 'Turno reservado exitosamente' });
         } finally {
@@ -125,6 +136,70 @@ app.get('/turnos/confirmar', async (req, res) => {
         res.status(500).json({ message: 'Error interno al procesar la solicitud' });
     }
 });
+
+app.get('/turnos/horarios-disponibles', async (req, res) => {
+    const { fecha } = req.query;
+
+    if (!fecha) {
+        return res.status(400).json({ message: 'Fecha es requerida' });
+    }
+
+    try {
+        const connection = await pool.getConnection();
+        try {
+            const [rows] = await connection.execute(
+                'SELECT HOUR(fechaHora) AS hora FROM turnos WHERE DATE(fechaHora) = ?',
+                [fecha]
+            );
+            const horasReservadas = rows.map(row => row.hora);
+
+            // Obtener día de la semana y horarios disponibles
+            const diaSemana = moment(fecha).format('dddd');
+            const horariosDisponibles = obtenerHorariosDisponibles(diaSemana);
+
+            // Filtrar horarios disponibles según los ya reservados
+            const horariosDisponiblesFiltrados = horariosDisponibles.filter(hora => {
+                const hour = Number(hora.split(':')[0]);
+                return !horasReservadas.includes(hour);
+            });
+
+            res.status(200).json(horariosDisponiblesFiltrados);
+        } finally {
+            connection.release();
+        }
+    } catch (err) {
+        console.error('Error al obtener horarios disponibles:', err);
+        res.status(500).json({ message: 'Error interno al procesar la solicitud' });
+    }
+});
+
+// Función para obtener los horarios disponibles para un día de la semana
+const obtenerHorariosDisponibles = (diaSemana) => {
+    const horariosDisponibles = {
+        "Lunes": ["09:00", "11:30", "13:30", "17:30"],
+        "Martes": ["09:00", "11:30", "15:00", "18:00"],
+        "Miércoles": ["09:00", "11:30", "13:30", "17:30"],
+        "Jueves": ["09:00", "11:30", "15:00", "18:00"],
+        "Viernes": ["09:00", "11:30", "13:00", "15:00", "18:00"],
+        "Sábado": ["10:00", "12:30", "15:00"],
+        // Agrega más días y horarios según tu disponibilidad
+    };
+
+    // Obtener horarios para el día de la semana dado
+    const horariosDia = horariosDisponibles[diaSemana] || [];
+
+    // Si es pasado medianoche, devolver horarios disponibles para el próximo día
+    const ahora = moment();
+    const esPasadoMedianoche = ahora.isAfter(moment(fecha).startOf('day'));
+    if (esPasadoMedianoche) {
+        const siguienteDia = ahora.add(1, 'days').format('dddd');
+        return horariosDisponibles[siguienteDia] || [];
+    }
+
+    return horariosDia;
+};
+
+
 
 // Función para borrar turnos antiguos
 const borrarTurnosAntiguos = async () => {
