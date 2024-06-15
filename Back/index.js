@@ -26,12 +26,12 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const enviarCorreoElectronico = async (cliente, fechaFormateada, tipoServicio) => {
+const enviarCorreoElectronico = async (cliente, fechaFormateada, tipoServicio, emailCliente) => {
     try {
         const mensaje = `El cliente ${cliente}, reservó el turno para el día ${fechaFormateada} y para el servicio ${tipoServicio}.`;
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_CONTACTO,
+            to: [process.env.EMAIL_CONTACTO, emailCliente],
             subject: 'Turno reservado exitosamente',
             text: mensaje,
         });
@@ -42,7 +42,7 @@ const enviarCorreoElectronico = async (cliente, fechaFormateada, tipoServicio) =
 };
 
 app.post('/turnos/reservar', async (req, res) => {
-    const { fechaHora, nombreCliente, tipoServicio, montoSeña } = req.body;
+    const { fechaHora, nombreCliente, tipoServicio, montoSeña, emailCliente } = req.body;
 
     try {
         const connection = await pool.getConnection();
@@ -76,7 +76,7 @@ app.post('/turnos/reservar', async (req, res) => {
                     pending: `${process.env.BACKEND_URL}/turnos/pendiente`
                 },
                 auto_return: 'approved',
-                external_reference: fechaHora, tipoServicio, // Usamos fechaHora como referencia externa
+                external_reference: fechaHora // Usamos fechaHora como referencia externa
             };
 
             console.log('Preferencia creada:', preference);
@@ -98,21 +98,12 @@ app.post('/turnos/reservar', async (req, res) => {
 
 // Endpoint para confirmar el turno después del pago
 app.get('/turnos/confirmar', async (req, res) => {
-    const { payment_id, status, external_reference, nombreCliente, tipoServicio } = req.query;
+    const { payment_id, status, external_reference, nombreCliente, tipoServicio, emailCliente } = req.query;
 
-    console.log('Received parameters:', { payment_id, status, external_reference, nombreCliente, tipoServicio });
+    console.log('Received parameters:', { payment_id, status, external_reference, nombreCliente, tipoServicio, emailCliente });
 
     if (status !== 'approved') {
         return res.status(400).json({ message: 'El pago no fue aprobado' });
-    }
-
-    // Verificar y convertir los parámetros
-    const safeExternalReference = external_reference || null;
-    const safeNombreCliente = nombreCliente || null;
-    const safeTipoServicio = tipoServicio || null;
-
-    if (!safeExternalReference || !safeNombreCliente || !safeTipoServicio) {
-        return res.status(400).json({ message: 'Faltan datos requeridos para confirmar el turno' });
     }
 
     try {
@@ -121,11 +112,11 @@ app.get('/turnos/confirmar', async (req, res) => {
             // Insertar nuevo turno
             const [result] = await connection.execute(
                 'INSERT INTO turnos (fechaHora, nombreCliente, tipoServicio) VALUES (?, ?, ?)',
-                [safeExternalReference, safeNombreCliente, safeTipoServicio]
+                [external_reference, nombreCliente, tipoServicio]
             );
 
-            const fechaFormateada = moment(safeExternalReference).format('DD-MM-YYYY HH:mm');
-            await enviarCorreoElectronico(safeNombreCliente, fechaFormateada, safeTipoServicio);
+            const fechaFormateada = moment(external_reference).format('DD-MM-YYYY HH:mm');
+            await enviarCorreoElectronico(nombreCliente, fechaFormateada, tipoServicio, emailCliente);
 
             res.status(201).json({ message: 'Turno reservado exitosamente' });
         } finally {
@@ -188,18 +179,8 @@ const obtenerHorariosDisponibles = (diaSemana) => {
     // Obtener horarios para el día de la semana dado
     const horariosDia = horariosDisponibles[diaSemana] || [];
 
-    // Si es pasado medianoche, devolver horarios disponibles para el próximo día
-    const ahora = moment();
-    const esPasadoMedianoche = ahora.isAfter(moment(fecha).startOf('day'));
-    if (esPasadoMedianoche) {
-        const siguienteDia = ahora.add(1, 'days').format('dddd');
-        return horariosDisponibles[siguienteDia] || [];
-    }
-
     return horariosDia;
 };
-
-
 
 // Función para borrar turnos antiguos
 const borrarTurnosAntiguos = async () => {
