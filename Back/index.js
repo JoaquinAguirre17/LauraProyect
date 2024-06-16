@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
-const pool = require('./db');
+const connectToDatabase = require('./db');
 const moment = require('moment');
 const mercadopago = require('mercadopago');
 const PORT = process.env.PORT || 5000;
@@ -45,51 +45,49 @@ app.post('/turnos/reservar', async (req, res) => {
     const { fechaHora, nombreCliente, tipoServicio, montoSeña, emailCliente } = req.body;
 
     try {
-        const connection = await pool.getConnection();
-        try {
-            // Verificar si el turno ya existe
-            const [rows] = await connection.execute('SELECT * FROM turnos WHERE fechaHora = ?', [fechaHora]);
-            if (rows.length > 0) {
-                return res.status(400).json({ message: 'El turno para esta fecha y hora ya está reservado' });
-            }
+        const db = await connectToDatabase();
+        const turnosCollection = db.collection('turnos');
 
-            // Convertir montoSeña a número y verificar
-            const montoSeñaNumero = Number(montoSeña);
-            if (isNaN(montoSeñaNumero)) {
-                throw new Error('montoSeña debe ser un número');
-            }
-
-            // Crear preferencia de pago en Mercado Pago
-            let preference = {
-                items: [{
-                    title: `Reserva de turno: ${tipoServicio}`,
-                    quantity: 1,
-                    currency_id: 'ARS',
-                    unit_price: montoSeñaNumero,
-                }],
-                payer: {
-                    name: nombreCliente,
-                },
-                back_urls: {
-                    success: `${process.env.BACKEND_URL}/turnos/confirmar`,
-                    failure: `${process.env.BACKEND_URL}/turnos/error`,
-                    pending: `${process.env.BACKEND_URL}/turnos/pendiente`
-                },
-                auto_return: 'approved',
-                external_reference: fechaHora // Usamos fechaHora como referencia externa
-            };
-
-            console.log('Preferencia creada:', preference);
-
-            const response = await mercadopago.preferences.create(preference);
-
-            res.status(200).json({
-                message: 'Inicie el pago de la seña para confirmar la reserva',
-                init_point: response.body.init_point
-            });
-        } finally {
-            connection.release();
+        // Verificar si el turno ya existe
+        const turnoExistente = await turnosCollection.findOne({ fechaHora });
+        if (turnoExistente) {
+            return res.status(400).json({ message: 'El turno para esta fecha y hora ya está reservado' });
         }
+
+        // Convertir montoSeña a número y verificar
+        const montoSeñaNumero = Number(montoSeña);
+        if (isNaN(montoSeñaNumero)) {
+            throw new Error('montoSeña debe ser un número');
+        }
+
+        // Crear preferencia de pago en Mercado Pago
+        let preference = {
+            items: [{
+                title: `Reserva de turno: ${tipoServicio}`,
+                quantity: 1,
+                currency_id: 'ARS',
+                unit_price: montoSeñaNumero,
+            }],
+            payer: {
+                name: nombreCliente,
+            },
+            back_urls: {
+                success: `${process.env.BACKEND_URL}/turnos/confirmar`,
+                failure: `${process.env.BACKEND_URL}/turnos/error`,
+                pending: `${process.env.BACKEND_URL}/turnos/pendiente`
+            },
+            auto_return: 'approved',
+            external_reference: fechaHora // Usamos fechaHora como referencia externa
+        };
+
+        console.log('Preferencia creada:', preference);
+
+        const response = await mercadopago.preferences.create(preference);
+
+        res.status(200).json({
+            message: 'Inicie el pago de la seña para confirmar la reserva',
+            init_point: response.body.init_point
+        });
     } catch (err) {
         console.error('Error al reservar el turno:', err);
         res.status(500).json({ message: 'Error interno al procesar la solicitud' });
@@ -107,21 +105,20 @@ app.get('/turnos/confirmar', async (req, res) => {
     }
 
     try {
-        const connection = await pool.getConnection();
-        try {
-            // Insertar nuevo turno
-            const [result] = await connection.execute(
-                'INSERT INTO turnos (fechaHora, nombreCliente, tipoServicio) VALUES (?, ?, ?)',
-                [external_reference, nombreCliente, tipoServicio]
-            );
+        const db = await connectToDatabase();
+        const turnosCollection = db.collection('turnos');
 
-            const fechaFormateada = moment(external_reference).format('DD-MM-YYYY HH:mm');
-            await enviarCorreoElectronico(nombreCliente, fechaFormateada, tipoServicio, emailCliente);
+        // Insertar nuevo turno
+        await turnosCollection.insertOne({
+            fechaHora: external_reference,
+            nombreCliente,
+            tipoServicio
+        });
 
-            res.status(201).json({ message: 'Turno reservado exitosamente' });
-        } finally {
-            connection.release();
-        }
+        const fechaFormateada = moment(external_reference).format('DD-MM-YYYY HH:mm');
+        await enviarCorreoElectronico(nombreCliente, fechaFormateada, tipoServicio, emailCliente);
+
+        res.status(201).json({ message: 'Turno reservado exitosamente' });
     } catch (err) {
         console.error('Error al confirmar el turno:', err);
         res.status(500).json({ message: 'Error interno al procesar la solicitud' });
@@ -136,28 +133,23 @@ app.get('/turnos/horarios-disponibles', async (req, res) => {
     }
 
     try {
-        const connection = await pool.getConnection();
-        try {
-            const [rows] = await connection.execute(
-                'SELECT HOUR(fechaHora) AS hora FROM turnos WHERE DATE(fechaHora) = ?',
-                [fecha]
-            );
-            const horasReservadas = rows.map(row => row.hora);
+        const db = await connectToDatabase();
+        const turnosCollection = db.collection('turnos');
 
-            // Obtener día de la semana y horarios disponibles
-            const diaSemana = moment(fecha).format('dddd');
-            const horariosDisponibles = obtenerHorariosDisponibles(diaSemana);
+        const turnos = await turnosCollection.find({ fechaHora: { $regex: `^${fecha}` } }).toArray();
+        const horasReservadas = turnos.map(turno => new Date(turno.fechaHora).getHours());
 
-            // Filtrar horarios disponibles según los ya reservados
-            const horariosDisponiblesFiltrados = horariosDisponibles.filter(hora => {
-                const hour = Number(hora.split(':')[0]);
-                return !horasReservadas.includes(hour);
-            });
+        // Obtener día de la semana y horarios disponibles
+        const diaSemana = moment(fecha).format('dddd');
+        const horariosDisponibles = obtenerHorariosDisponibles(diaSemana);
 
-            res.status(200).json(horariosDisponiblesFiltrados);
-        } finally {
-            connection.release();
-        }
+        // Filtrar horarios disponibles según los ya reservados
+        const horariosDisponiblesFiltrados = horariosDisponibles.filter(hora => {
+            const hour = Number(hora.split(':')[0]);
+            return !horasReservadas.includes(hour);
+        });
+
+        res.status(200).json(horariosDisponiblesFiltrados);
     } catch (err) {
         console.error('Error al obtener horarios disponibles:', err);
         res.status(500).json({ message: 'Error interno al procesar la solicitud' });
@@ -185,15 +177,13 @@ const obtenerHorariosDisponibles = (diaSemana) => {
 // Función para borrar turnos antiguos
 const borrarTurnosAntiguos = async () => {
     try {
-        const connection = await pool.getConnection();
-        try {
-            const [result] = await connection.execute(
-                'DELETE FROM turnos WHERE fechaHora < NOW() - INTERVAL 1 DAY'
-            );
-            console.log(`Turnos borrados: ${result.affectedRows}`);
-        } finally {
-            connection.release();
-        }
+        const db = await connectToDatabase();
+        const turnosCollection = db.collection('turnos');
+
+        const result = await turnosCollection.deleteMany({
+            fechaHora: { $lt: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+        });
+        console.log(`Turnos borrados: ${result.deletedCount}`);
     } catch (err) {
         console.error('Error al borrar turnos antiguos:', err);
     }

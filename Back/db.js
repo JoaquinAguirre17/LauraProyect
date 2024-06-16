@@ -1,12 +1,19 @@
-const mysql = require('mysql2/promise');
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-});
+const uri = process.env.MONGO_URI;
 
-module.exports = pool;
+let client;
+let db;
+
+async function connectToDatabase() {
+    if (!client) {
+        client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect();
+        db = client.db(process.env.DB_NAME);
+        console.log('Connected to MongoDB Atlas');
+    }
+    return db;
+}
+
+module.exports = connectToDatabase;
