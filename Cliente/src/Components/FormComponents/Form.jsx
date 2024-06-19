@@ -24,7 +24,6 @@ function Form() {
         "Jueves": ["09:00", "11:30", "15:00", "18:00"],
         "Viernes": ["09:00", "11:30", "13:00", "15:00", "18:00"],
         "Sábado": ["10:00", "12:30", "15:00"],
-        // Otros días y horarios según tu disponibilidad
     };
 
 
@@ -91,6 +90,10 @@ function Form() {
                     <div>
                         <label htmlFor="nombreCliente">Nombre:</label>
                         <input type="text" id="nombreCliente" name="nombreCliente" value={formData.nombreCliente} onChange={handleChange} required />
+                    </div>
+                    <div>
+                        <label htmlFor="emailCliente">Email:</label>
+                        <input type="text" id="emailCliente" name="emailCliente" value={formData.emailCliente} onChange={handleChange} required />
                     </div>
                     <div>
                         <label>Tipo de Servicio:</label>
