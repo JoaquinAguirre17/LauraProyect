@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import './From.css'
-
+import './from.css';
 function Form() {
     const [formData, setFormData] = useState({
         fecha: '',
